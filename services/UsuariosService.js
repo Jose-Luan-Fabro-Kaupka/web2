@@ -23,16 +23,24 @@ exports.usuariosEditar = async (dados) => {
 
     const dadosAtualizar = {}
 
-    if(dados.titulo){
-        dadosAtualizar.titulo = dados.titulo;
+    if(dados.nome){
+        dadosAtualizar.nome = dados.titulo;
     }
 
-    if(dados.resumo){
-        dadosAtualizar.resumo = dados.resumo;
+    if(dados.email){
+        dadosAtualizar.email = dados.resumo;
     }
 
-    if(dados.link){
-        dadosAtualizar.link = dados.link;
+    if(dados.login){
+        dadosAtualizar.login = dados.login;
+    }
+
+    if(dados.senha){
+        dadosAtualizar.senha = dados.senha;
+    }
+
+    if(dados.tipo){
+        dadosAtualizar.tipo = dados.tipo;
     }
 
     await db.usuarios.update(dadosAtualizar, {
