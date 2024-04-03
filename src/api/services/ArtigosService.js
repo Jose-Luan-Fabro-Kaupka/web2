@@ -1,4 +1,4 @@
-const db = require('../config/db');
+const db = require('../../config/db');
 
 exports.artigosCriar = async (dados) => {
     const novoArtigo = await db.create(dados);
