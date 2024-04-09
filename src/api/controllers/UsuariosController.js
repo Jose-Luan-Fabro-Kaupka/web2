@@ -3,13 +3,13 @@ const responses = require('../helper/Responses')
 
 
 exports.postUsuarios = async (req, res) => {
-    const {titulo, resumo, link, id_autor} = req.body;
+    const {nome, email, login, senha, tipo} = req.body;
 
-    if(!titulo || !resumo || !link || !id_autor){
+    if(!nome || !email || !login || !senha || !tipo){
         return responses.sendResponse(res, 400, true, 'Campos obrigatórios não informados.', null);
     }
 
-    const dados = {titulo, resumo, link, id_autor}
+    const dados = {nome, email, login, senha, tipo}
     const result = await service.usuariosCriar(dados);
     return responses.sendResponse(res, 201, false, 'Usuário criado com sucesso.', result);
 }
@@ -33,7 +33,7 @@ exports.putUsuarios = async (req, res) => {
     const {nome, email, login, senha, tipo} = req.body;
     const dados = {id, nome, email, login, senha, tipo};
     const result = service.usuariosEditar(dados);
-    return responses.sendResponse(res, 200, false, 'OK.', result)
+    return responses.sendResponse(res, 200, false, 'OK.', result);
 }
 
 exports.deleteUsuarios = async (req, res) => {

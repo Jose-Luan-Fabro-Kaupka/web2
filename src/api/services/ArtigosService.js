@@ -1,13 +1,16 @@
-const db = require('../../config/db');
+const db = require('../../config/db_sequelize').db;
 
 exports.artigosCriar = async (dados) => {
-    const novoArtigo = await db.create(dados);
+    const novoArtigo = await db.artigos.create(dados);
     return novoArtigo;
 }
 
 exports.artigosConsultar = async () => {
     try {
-        const artigos = await db.artigos.findAll(); 
+        const artigos = await db.artigos.findAll({
+            order: [['id', 'ASC']]
+        });
+        return artigos;
     } catch (error) {
         console.error('Erro ao buscar artigos:', error);
         throw new Error('Erro ao buscar artigos. Detalhes no console.');
@@ -37,7 +40,7 @@ exports.artigosEditar = async (dados) => {
 
     await db.artigos.update(dadosAtualizar, {
         where:{
-            id: id
+            id: dados.id
         }
     });
 

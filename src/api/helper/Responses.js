@@ -10,7 +10,5 @@ exports.sendResponse = (res, statusCode, erro, mensagem, dados) => {
         response.data = dados;
     }
     
-    pino.trace('Retorno: ' + statusCode + '. ' + JSON.stringify(response));
-
     return res.status(statusCode).json(response);
 }

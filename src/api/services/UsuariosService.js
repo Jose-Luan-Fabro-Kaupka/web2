@@ -1,13 +1,21 @@
-const db = require('../../config/db');
+const db = require('../../config/db_sequelize').db;
 
 exports.usuariosCriar = async (dados) => {
-    const novousuario = await db.create(dados);
-    return novousuario;
+    try{
+        const novousuario = await db.usuarios.create(dados);
+        return novousuario;
+    } catch (error) {
+        console.error('Erro ao cadastras usuário:', error);
+        throw new Error('Erro ao cadastrar usuário. Detalhes no console.');
+    }
 }
 
 exports.usuariosConsultar = async () => {
     try {
-        const usuarios = await db.usuarios.findAll(); 
+        const usuarios = await db.usuarios.findAll({
+            order: [['id', 'ASC']]
+        }); 
+        return usuarios;
     } catch (error) {
         console.error('Erro ao buscar usuários:', error);
         throw new Error('Erro ao buscar usuários. Detalhes no console.');
@@ -24,11 +32,11 @@ exports.usuariosEditar = async (dados) => {
     const dadosAtualizar = {}
 
     if(dados.nome){
-        dadosAtualizar.nome = dados.titulo;
+        dadosAtualizar.nome = dados.nome;
     }
 
     if(dados.email){
-        dadosAtualizar.email = dados.resumo;
+        dadosAtualizar.email = dados.email;
     }
 
     if(dados.login){
@@ -45,7 +53,7 @@ exports.usuariosEditar = async (dados) => {
 
     await db.usuarios.update(dadosAtualizar, {
         where:{
-            id: id
+            id: dados.id
         }
     });
 
