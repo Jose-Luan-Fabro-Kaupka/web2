@@ -1,16 +1,20 @@
-const Sequelize = require ('sequelize');
 const config = require("./config")
+const { Sequelize } = require('sequelize');
 
-const sequelize = new Sequelize(config.name, config.user, config.password, {
-    host: config.host,
-    dialect: "postgres"
-})
+const sequelize = new Sequelize('postgres://banco_web_user:DBLfO7P3xLm9HHruszCxONoF6F9zrwNq@dpg-cobd7nv109ks738hh5p0-a.oregon-postgres.render.com/banco_web', {
+  dialectOptions: {
+    ssl: {
+      require: true, // Set to true if the server requires SSL/TLS connection
+      rejectUnauthorized: false // Disable SSL verification
+    }
+  }
+});
 
 var db = {}
 
 
-db.usuarios = require('../api/models/UsuariosModel')(sequelize, Sequelize);
-db.artigos = require('../api/models/ArtigosModel')(sequelize, Sequelize);
+db.usuarios = require('../models/UsuariosModel')(sequelize, Sequelize);
+db.artigos = require('../models/ArtigosModel')(sequelize, Sequelize);
 
 db.artigos.belongsTo(db.usuarios, {
     as: 'autor', // Define um alias para a relação
