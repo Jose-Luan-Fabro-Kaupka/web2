@@ -1,4 +1,4 @@
-Versão do node: 21.6.1
+noVersão do node: 21.6.1
 Versão do bootstrap: 5.3.2 
 Versão do cors: 2.8.5 
 Versão do express: 4.19.2 

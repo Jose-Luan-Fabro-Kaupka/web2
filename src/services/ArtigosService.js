@@ -1,4 +1,4 @@
-const db = require('../../config/db_sequelize').db;
+const db = require('../config/db_sequelize').db;
 
 exports.artigosCriar = async (dados) => {
     const novoArtigo = await db.artigos.create(dados);
