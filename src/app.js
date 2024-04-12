@@ -5,7 +5,7 @@ const authRouter = require('./routes/auth')
 var createError = require('http-errors');
 var path = require('path');
 var cookieParser = require('cookie-parser');
-var csrf = require('csurf');
+//var csrf = require('csurf');
 var passport = require('passport');
 var logger = require('morgan');
 const session = require('express-session');
@@ -36,7 +36,7 @@ app.use(session({
     resave: false, // don't save session if unmodified
     saveUninitialized: false, // don't create session until something stored
 }));
-app.use(csrf());
+// app.use(csrf());
 app.use(passport.authenticate('session'));
 app.use(function(req, res, next) {
     var msgs = req.session.messages || [];
@@ -45,10 +45,11 @@ app.use(function(req, res, next) {
     req.session.messages = [];
     next();
 });
-app.use(function(req, res, next) {
-    res.locals.csrfToken = req.csrfToken();
-    next();
-});
+// app.use(function(req, res, next) {
+//     res.locals.csrfToken = req.csrfToken();
+//     next();
+// });
+
 
 
 app.use('/', indexRouter);
@@ -80,20 +81,6 @@ app.use(session({
   saveUninitialized: false // don't create session until something stored
  // store: db
 }));
-app.use(csrf());
-app.use(passport.authenticate('session'));
-app.use(function (req, res, next) {
-  var msgs = req.session.messages || [];
-  res.locals.messages = msgs;
-  res.locals.hasMessages = !!msgs.length;
-  req.session.messages = [];
-  next();
-});
-app.use(function (req, res, next) {
-  res.locals.csrfToken = req.csrfToken();
-  next();
-});
-
 app.use(function (req, res, next) {
   next(createError(404));
 });

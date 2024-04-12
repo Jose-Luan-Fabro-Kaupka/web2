@@ -11,7 +11,7 @@ var http = require('http');
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(process.env.PORT || '8081');
 app.set('port', port);
 
 /**
@@ -85,4 +85,6 @@ function onListening() {
     var bind = typeof addr === 'string'
         ? 'pipe ' + addr
         : 'port ' + addr.port;
+    console.log('Listening on ' + bind);
+    console.log('http://0.0.0.0:'+addr.port);
 }
