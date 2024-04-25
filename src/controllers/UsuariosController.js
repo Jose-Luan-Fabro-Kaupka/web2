@@ -1,49 +1,57 @@
-const service = require('../services/UsuariosService');
-const responses = require('../helper/Responses')
+const bcrypt = require('bcryptjs');
+const LocalStrategy = require('passport-local');
 
 
-exports.postUsuarios = async (req, res) => {
-    const {nome, email, login, senha, tipo} = req.body;
-
-    if(!nome || !email || !login || !senha || !tipo){
-        return responses.sendResponse(res, 400, true, 'Campos obrigatórios não informados.', null);
+module.exports = passport => {
+    //config passport
+    function findUser(username) {
+        return users.find(user => username === username);
+    }
+    function findUserById(id) {
+        return users.find(user => user._id === id);
     }
 
-    const dados = {nome, email, login, senha, tipo}
-    const result = await service.usuariosCriar(dados);
-    return responses.sendResponse(res, 201, false, 'Usuário criado com sucesso.', result);
-}
 
-exports.getUsuarios = async (req, res) => {
-    try {
-        const result = await service.usuariosConsultar(req.params);
-        return responses.sendResponse(res, 200, false, 'OK.', result);
-    } catch (error) {
-        return responses.sendResponse(res, 500, true, 'Erro ao buscar usuarios', null);
-    }
-}
+    passport.serializeUser((user, done) => {
+        done(null, user._id);
+    })
+    passport.deserializeUser((id, done) => {
+        try {
+            const user = findUserById(id);
+            if (!user) {
+                return done(null, false);
+            }
+            return done(null, user);
+        } catch (err) {
+            console.log(err);
+            return done(err, null);
+        }
+    });
 
-exports.putUsuarios = async (req, res) => {
-    const { id } = req.params;
+    passport.use(new LocalStrategy({
+            usernameField: 'username',
+            passwordField: 'password',
+        },
+        (username, password, done) => {
+            try {
+                const user = findUser(username);
+                if (!user) {
+                    return done(null, false, { message: 'Usuário não encontrado' });
+                }
 
-    if(!id){
-        return responses.sendResponse(res, 400, true, 'Índice não informado.', null);
-    }
+                bcrypt.compare(password, user.password, (err, isValid) => {
+                    if (err) {
+                        return done(err);
+                    }
+                    if (!isValid) {
+                        return done(null, false, { message: 'Senha incorreta' });
+                    }
+                    return done(null, user);
+                });
+            } catch (err) {
+                console.log(err);
+                return done(err);
+            }
+        }));
 
-    const {nome, email, login, senha, tipo} = req.body;
-    const dados = {id, nome, email, login, senha, tipo};
-    const result = service.usuariosEditar(dados);
-    return responses.sendResponse(res, 200, false, 'OK.', result);
-}
-
-exports.deleteUsuarios = async (req, res) => {
-    const { id } = req.params;
-
-    if(!id){
-        return responses.sendResponse(res, 400, true, 'Índice não informado.', null);
-    }
-
-    await service.usuariosDeletar(id);
-
-    return responses.sendResponse(res, 204, false, 'Usuário eliminado com sucesso.', null);
 }
