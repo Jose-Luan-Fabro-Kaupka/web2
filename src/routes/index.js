@@ -1,12 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const artigosController = require('../controllers/ArtigosController');
-const usuariosController = require('../controllers/UsuariosController');
+const usuariosController = require('../controllers/usuariosController');
 var ensureLogIn = require('connect-ensure-login').ensureLoggedIn;
-var db = require('../config/db_sequelize');
+const passport = require("passport");
+const authController = require('../controllers/authController');
+const authService = require('../services/authService')
+const artigoService = require('../services/ArtigosService')
+const db = require('../config/db_sequelize')
+const homeController = require('../controllers/homeController')
 
 var ensureLoggedIn = ensureLogIn();
-
 
 //Artigos
 router.get('/artigos', (req, res) => artigosController.getArtigos(req, res));
@@ -19,19 +23,19 @@ router.delete('/artigos/:id', (req, res) => artigosController.deleteArtigos(req,
 
 //Usuários
 
-router.get('/usuarios', (req, res) => usuariosController.getUsuarios(req, res));
+router.get('/usuarios',  usuariosController.getAllUsers);
 
-router.post('/usuarios', (req, res) => usuariosController.postUsuarios(req, res));
+router.post('/usuarios',(req, res) =>  usuariosController.createUser);
 
-router.put('/usuarios/:id', (req, res) => usuariosController.putUsuarios(req, res));
+router.put('/usuarios/:id', (req, res) =>  usuariosController.updateUser);
 
-router.delete('/usuarios/:id', (req, res) => usuariosController.deleteUsuarios(req, res));
+router.delete('/usuarios/:id',(req, res) =>   usuariosController.deleteUser);
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-    if (!req.user) { return res.render('home'); }
-    next();
-});
+router.get('/', homeController.renderHome);
+
+router.get('/artigos/:id', artigosController.renderArtigo)
+
 
 
 module.exports = router;

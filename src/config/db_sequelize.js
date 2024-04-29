@@ -1,4 +1,3 @@
-const config = require("./config")
 const { Sequelize } = require('sequelize');
 
 const sequelize = new Sequelize('postgres://banco_web_user:DBLfO7P3xLm9HHruszCxONoF6F9zrwNq@dpg-cobd7nv109ks738hh5p0-a.oregon-postgres.render.com/banco_web', {

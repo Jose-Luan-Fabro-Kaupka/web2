@@ -1,62 +1,36 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-const passport = require('passport');
+// app.js
+const express = require('express');
+const bodyParser = require('body-parser');
 const session = require('express-session');
-require('./controllers/UsuariosController')(passport);
+const passport = require('passport');
+const authRoutes = require('./routes/authRoutes');
+const path = require('path')
+const indexRoutes = require('./routes/index')
+const flash = require('express-flash');
 
-function authenticationMiddleware(req, res, next){
-    if (req.isAuthenticated())
-        return next()
-    res.redirect('/login')
-}
+const app = express();
 
-var indexRouter = require('./routes/index');
-var authRouter = require('./routes/auth');
-const req = require("express/lib/request");
+// Configuração do Passport
+require('./config/passport')(passport);
 
-var app = express();
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'))
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
+// Configuração da sessão
 app.use(session({
-    secret: 'secret',
+    secret: 'secreto',
     resave: false,
-    saveUninitialized: false,
-    cookie: { maxAge: 30 * 60 * 60 * 1000 }
+    saveUninitialized: false
 }));
 
+app.use(flash());
+
+// Inicialização do Passport e persistência da sessão
 app.use(passport.initialize());
-app.use(passport.session())
+app.use(passport.session());
 
-app.use('/', authRouter);
-app.use('/', authenticationMiddleware, indexRouter);
-
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-    next(createError(404));
-});
-
-// error handler
-app.use(function(err, req, res, next) {
-    // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-    // render the error page
-    res.status(err.status || 500);
-    res.render('error');
-});
+app.use('/auth', authRoutes);
+app.use('/', indexRoutes)
 
 module.exports = app;

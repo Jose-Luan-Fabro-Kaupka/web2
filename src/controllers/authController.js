@@ -1,22 +1,33 @@
-const express = require('express');
-const passport = require('passport');
-const router = express.Router();
+const userController = require('../controllers/usuariosController')
+// controllers/authController.js
 const authService = require('../services/authService');
 
-router.get('/login', (req, res, next) => {
-    // Render login page
-});
+exports.getLogin = (req, res) => {
+    res.render('login.ejs');
+};
 
-router.post('/login/password', authService.authenticate);
+exports.postLogin = (req, res) => {
+    // A autenticação é tratada pelo Passport.js
+};
 
-router.post('/logout', (req, res, next) => {
-    // Logout logic
-});
+exports.getSignup = (req, res) => {
+    res.render('signup',{hasMessages: false});
+};
 
-router.get('/signup', (req, res, next) => {
-    // Render signup page
-});
+exports.postSignup = async (req, res) => {
+    const dados = req.body;
+    console.log(dados)
+    try {
+        await authService.signup(dados)
+        res.redirect('/auth/login');
+    } catch (error) {
+        // Trate o erro adequadamente
+        console.error(error);
+        res.render('signup', { error: 'Erro ao cadastrar usuário' });
+    }
+};
 
-router.post('/signup', authService.signup);
-
-module.exports = router;
+exports.logout = (req, res) => {
+    req.logout();
+    res.redirect('/');
+};

@@ -1,11 +1,16 @@
-const passport = require('passport');
-const userService = require('./userService');
+// services/authService.js
+const db = require('../config/db_sequelize').db;
 
-exports.authenticate =  passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/login?fail=true'
-})
+const { Usuarios } = require('../models/UsuariosModel'); // Importe o modelo de usuário aqui
 
-exports.signup = (req, res, next) => {
-    // Signup logic
+exports.findByEmail = async (email) => {
+    return db.usuarios.findOne({ where: { email } });
+};
+
+exports.findById = async (id) => {
+    return db.usuarios.findByPk(id);
+};
+
+exports.signup = async (dados) => {
+    return db.usuarios.create(dados);
 };

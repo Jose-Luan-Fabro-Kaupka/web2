@@ -62,3 +62,11 @@ exports.artigosDeletar = async (id) => {
         }
     });
 }
+
+exports.artigoConsultarId = async  (id) =>{
+    const artigo = await db.artigos.findByPk(id);
+    if(!artigo){
+        throw new Error(404, 'Artigo não encontrado', undefined);
+    }
+    return artigo
+}

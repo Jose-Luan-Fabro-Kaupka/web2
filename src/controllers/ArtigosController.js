@@ -47,3 +47,24 @@ exports.deleteArtigos = async (req, res) => {
 
     return responses.sendResponse(res, 204, false, 'Artigo eliminado com sucesso.', null);
 }
+
+exports.renderArtigo = async (req, res) => {
+    const { id } = req.params;
+
+    if (!id) {
+        return responses.sendResponse(res, 400, true, 'Índice não informado.', null);
+    }
+
+    try {
+        let artigo = null;
+
+            artigo = await service.artigoConsultarId(id);
+            return res.render('artigo', {
+                artigo: artigo
+            });
+
+    } catch (error) {
+        console.error("Ocorreu um erro:", error);
+        return responses.sendResponse(res, 500, true, 'Erro ao consultar o artigo.', null);
+    }
+};
