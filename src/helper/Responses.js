@@ -10,5 +10,5 @@ exports.sendResponse = (res, statusCode, erro, mensagem, dados) => {
         response.data = dados;
     }
     
-    return res.status(statusCode).json(response);
+    return true//res.status(statusCode).json(response);
 }

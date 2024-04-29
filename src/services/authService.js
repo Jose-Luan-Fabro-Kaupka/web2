@@ -1,0 +1,16 @@
+// services/authService.js
+const db = require('../config/db_sequelize').db;
+
+const { Usuarios } = require('../models/UsuariosModel'); // Importe o modelo de usuário aqui
+
+exports.findByEmail = async (email) => {
+    return db.usuarios.findOne({ where: { email } });
+};
+
+exports.findById = async (id) => {
+    return db.usuarios.findByPk(id);
+};
+
+exports.signup = async (dados) => {
+    return db.usuarios.create(dados);
+};
