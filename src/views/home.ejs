@@ -109,6 +109,17 @@
         <h1>Choquei</h1>
     </header>
     <section>
+        <% if ( usuario ) { %>
+        <form action="/auth/logout" method="post">
+            <button type="submit">Logout</button>
+        </form>
+        <% }; %>
+            <% if ( !usuario ) { %>
+                <a href="/auth/login">Login</a>
+            <% }; %>
+        <% if ( usuario && usuario.tipo == 'admin') { %>
+            <a href="/auth/signup">Cadastrar usuario</a>
+            <% }; %>
         <% if (artigos && artigos.length) { %>
             <% artigos.forEach((artigo) => { %>
                <a href="/artigos/<%=artigo.id%>">

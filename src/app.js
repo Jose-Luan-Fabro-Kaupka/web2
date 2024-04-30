@@ -1,11 +1,10 @@
-// app.js
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const passport = require('passport');
 const authRoutes = require('./routes/authRoutes');
-const path = require('path')
-const indexRoutes = require('./routes/index')
+const path = require('path');
+const indexRoutes = require('./routes/index');
 const flash = require('express-flash');
 
 const app = express();
@@ -14,7 +13,7 @@ const app = express();
 require('./config/passport')(passport);
 
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'))
+app.set('views', path.join(__dirname, 'views'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Configuração da sessão
@@ -31,6 +30,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/auth', authRoutes);
-app.use('/', indexRoutes)
+app.use('/', indexRoutes);
 
 module.exports = app;
