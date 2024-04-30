@@ -17,9 +17,19 @@ module.exports = (sequelize, Sequelize) => {
         link:{
             type: Sequelize.STRING,
             allowNull: false
+        },
+        nota1: {
+            type: Sequelize.FLOAT,
+            alolownull: true
+        },
+        nota2: {
+            type: Sequelize.FLOAT,
+            alolownull: true
+        },
+        nota3: {
+            type: Sequelize.FLOAT,
+            alolownull: true
         }
-    }, {
-        timestamps: false
     });
     return artigos; // Certifique-se de retornar o modelo definido
 };
