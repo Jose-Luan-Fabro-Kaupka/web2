@@ -36,7 +36,7 @@ exports.putArtigos = async (req, res) => {
     return responses.sendResponse(res, 200, false, 'OK.', result);
 }
 
-exports.putArtigosAtualizar = async (req, res) =>{
+exports.putArtigosAvaliar = async (req, res) =>{
     const id = req.params;
 
     if(!id){

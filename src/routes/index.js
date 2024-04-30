@@ -19,7 +19,7 @@ router.post('/artigos', (req, res) => artigosController.postArtigos(req, res));
 
 router.put('/artigos/:id', (req, res) => artigosController.putArtigos(req, res));
 
-router.put('/artigos/atualizar/:id', (req, res) => artigosController.putArtigosAtualizar(req, res));
+router.put('/artigos/avaliar/:id', (req, res) => artigosController.putArtigosAvaliar(req, res));
 
 router.delete('/artigos/:id', (req, res) => artigosController.deleteArtigos(req, res));
 

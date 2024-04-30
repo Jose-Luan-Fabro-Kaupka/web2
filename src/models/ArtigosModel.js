@@ -31,5 +31,5 @@ module.exports = (sequelize, Sequelize) => {
             alolownull: true
         }
     });
-    return artigos; // Certifique-se de retornar o modelo definido
+    return artigos;
 };
