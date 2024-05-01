@@ -1,13 +1,11 @@
 const { Sequelize } = require('sequelize');
 
-const sequelize = new Sequelize('postgres://banco_web_user:DBLfO7P3xLm9HHruszCxONoF6F9zrwNq@dpg-cobd7nv109ks738hh5p0-a.oregon-postgres.render.com/banco_web', {
-  dialectOptions: {
-    ssl: {
-      require: true, // Set to true if the server requires SSL/TLS connection
-      rejectUnauthorized: false // Disable SSL verification
-    }
-  }
-});
+const config = require("./config")
+
+const sequelize = new Sequelize(config.name, config.user, config.password, {
+    host: config.host,
+    dialect: "postgres"
+})
 
 var db = {}
 

@@ -1,7 +1,7 @@
-var name = "banco_web"
-var user = "banco_web_user"
-var password = "DBLfO7P3xLm9HHruszCxONoF6F9zrwNq"
-const host = "dpg-cobd7nv109ks738hh5p0-a"
+var name = "web2"
+var user = "postgres"
+var password = "postgres"
+const host = "localhost"
 const port = "5432"
 
 module.exports = {

@@ -6,8 +6,14 @@ const authRoutes = require('./routes/authRoutes');
 const path = require('path');
 const indexRoutes = require('./routes/index');
 const flash = require('express-flash');
+const db = require('./config/db_sequelize');
+
 
 const app = express();
+
+
+app.use(bodyParser.json());
+app.use(express.json());
 
 // Configuração do Passport
 require('./config/passport')(passport);
