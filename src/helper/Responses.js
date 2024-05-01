@@ -1,5 +1,3 @@
-const pino = require('pino');
-
 exports.sendResponse = (res, statusCode, erro, mensagem, dados) => {
     let response = {
         error: erro ? true : false,

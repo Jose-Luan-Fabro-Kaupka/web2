@@ -38,6 +38,42 @@ exports.artigosEditar = async (dados) => {
         dadosAtualizar.link = dados.link;
     }
 
+    if(dados.nota1){
+        dadosAtualizar.nota1 = dados.nota1;
+    }
+
+    if(dados.nota2){
+        dadosAtualizar.nota2 = dados.nota2;
+    }
+
+    await db.artigos.update(dadosAtualizar, {
+        where:{
+            id: dados.id
+        }
+    });
+
+    const artigoAtualizado = db.artigos.findByPk(dados.id);
+
+    return artigoAtualizado;
+}
+
+exports.avaliar = async (dados) => {
+    const artigo = await db.artigos.findByPk(dados.id);
+
+    if(!artigo){
+        throw new Error(404, 'Artigo não encontrado', undefined);
+    }
+
+    const dadosAtualizar = {};
+
+    if(dados.nota1){
+        dadosAtualizar.nota1 = dados.nota1;
+    }
+
+    if(dados.nota2){
+        dadosAtualizar.nota2 = dados.nota2;
+    }
+
     await db.artigos.update(dadosAtualizar, {
         where:{
             id: dados.id

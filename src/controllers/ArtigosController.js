@@ -60,6 +60,23 @@ exports.putArtigos = async (req, res) => {
             });
         }
 
+    const {titulo, resumo, link} = req.body;
+    const dados = {id, titulo, resumo, link};
+    const result = service.artigosEditar(dados);
+    return responses.sendResponse(res, 200, false, 'OK.', result);
+}
+
+exports.putArtigosAvaliar = async (req, res) =>{
+    const id = req.params;
+
+    if(!id){
+        return responses.sendResponse(res, 400, true, 'Índice não informado.', null);
+    }
+    const {nota1, nota2} = req.boy;
+    const dados = {id, nota1, nota2};
+    const result = service.avaliar(dados);
+    return responses.sendResponse(res, 200, false, 'OK.', result);
+}
         const { titulo, resumo, link } = req.body;
         const dados = { id, titulo, resumo, link };
         const result = await service.artigosEditar(dados);
