@@ -27,7 +27,14 @@ exports.postSignup = async (req, res) => {
     }
 };
 
+// authController.js
+
+// Função para fazer logout
 exports.logout = (req, res) => {
-    req.logout();
-    res.redirect('/');
+    // Faz logout do usuário
+    req.logout(() => {
+        // Redireciona para a página de login após o logout
+        res.redirect('/home');
+    });
 };
+

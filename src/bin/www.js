@@ -12,6 +12,7 @@ var http = require('http');
  */
 
 var port = normalizePort(process.env.PORT || '8081');
+const db = require('../config/db_sequelize');
 app.set('port', port);
 
 /**
@@ -23,8 +24,7 @@ var server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
-
-server.listen(port);
+server.listen(port)
 server.on('error', onError);
 server.on('listening', onListening);
 
@@ -88,3 +88,6 @@ function onListening() {
     console.log('Listening on ' + bind);
     console.log('http://0.0.0.0:'+addr.port);
 }
+
+//uncomment to create database
+//db.start()

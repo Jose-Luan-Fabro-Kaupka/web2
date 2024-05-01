@@ -110,10 +110,15 @@
     </header>
     <section>
         <% if ( usuario ) { %>
+        <%= usuario.id %>
         <form action="/auth/logout" method="post">
             <button type="submit">Logout</button>
         </form>
-        <% }; %>
+            <% if (usuario.tipo == 'Administrador' || usuario.tipo == 'Autor'){%>
+                <a href="/artigos/add">Criar Artigo!</a>
+            <% } %>
+
+            <% }; %>
             <% if ( !usuario ) { %>
                 <a href="/auth/login">Login</a>
             <% }; %>

@@ -32,9 +32,14 @@ router.put('/usuarios/:id', (req, res) =>  usuariosController.updateUser);
 router.delete('/usuarios/:id',(req, res) =>   usuariosController.deleteUser);
 
 /* GET home page. */
-router.get('/', homeController.renderHome);
+router.get('/', homeController.renderHome)
+router.get('/home', homeController.renderHome);
+
+
+router.get('/artigos/add', artigosController.renderAddArtigo)
 
 router.get('/artigos/:id', artigosController.renderArtigo)
+
 
 
 
