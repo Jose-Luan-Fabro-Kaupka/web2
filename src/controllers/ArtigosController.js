@@ -60,26 +60,9 @@ exports.putArtigos = async (req, res) => {
             });
         }
 
-    const {titulo, resumo, link} = req.body;
-    const dados = {id, titulo, resumo, link};
-    const result = service.artigosEditar(dados);
-    return responses.sendResponse(res, 200, false, 'OK.', result);
-}
-
-exports.putArtigosAvaliar = async (req, res) =>{
-    const id = req.params;
-
-    if(!id){
-        return responses.sendResponse(res, 400, true, 'Índice não informado.', null);
-    }
-    const {nota1, nota2} = req.boy;
-    const dados = {id, nota1, nota2};
-    const result = service.avaliar(dados);
-    return responses.sendResponse(res, 200, false, 'OK.', result);
-}
         const { titulo, resumo, link } = req.body;
         const dados = { id, titulo, resumo, link };
-        const result = await service.artigosEditar(dados);
+        const result = await service.artigosEditar(dados); // Adiciona await aqui
 
         return res.status(200).json({
             success: true,
@@ -94,6 +77,23 @@ exports.putArtigosAvaliar = async (req, res) =>{
         });
     }
 };
+
+exports.putArtigosAvaliar = async (req, res) => {
+    try {
+        const id = req.params.id; // Corrige req.params
+        if (!id) {
+            return responses.sendResponse(res, 400, true, 'Índice não informado.', null);
+        }
+        const { nota1, nota2 } = req.body; // Corrige req.body
+        const dados = { id, nota1, nota2 };
+        const result = await service.avaliar(dados); // Corrige chamada do serviço
+        return responses.sendResponse(res, 200, false, 'OK.', result);
+    } catch (error) {
+        console.error('Erro ao avaliar artigo:', error);
+        return responses.sendResponse(res, 500, true, 'Erro ao avaliar artigo.', null);
+    }
+};
+
 
 // Deleta um artigo existente
 exports.deleteArtigos = async (req, res) => {
