@@ -7,11 +7,12 @@ const path = require('path');
 const indexRoutes = require('./routes/index');
 const flash = require('express-flash');
 const db = require('./config/db_sequelize');
+const cors = require('cors')
 
 
 const app = express();
 
-
+app.use(cors())
 app.use(bodyParser.json());
 app.use(express.json());
 

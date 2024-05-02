@@ -8,17 +8,38 @@
 <body>
 <h1>Lista de Usuários</h1>
 <ul>
+    <button onclick="window.location.href='/auth/signup'">Adicionar</button>
     <% users.forEach(user => { %>
         <li>
-            <%= user.nome %> - <%= user.email %>
-            <form action="/usuarios/<%= user._id %>" method="DELETE" style="display: inline;">
-                <button type="submit">Deletar</button>
-            </form>
-            <form action="/usuarios/<%= user._id %>" method="GET" style="display: inline;">
-                <button type="submit">Atualizar</button>
-            </form>
+            <%= user.nome %> - <%= user.email %> - <%= user.tipo%>
+            <button type="button" onclick="deleteUser('<%= user.id %>')">Deletar</button>
+            <button type="button" onclick="window.location.href='/admin/users/<%=user.id%>'">Atualizar</button>
         </li>
     <% }); %>
 </ul>
+
+<script>
+    function deleteUser(userId) {
+        if (confirm('Tem certeza que deseja excluir este usuário?')) {
+            fetch(`/usuarios/${userId}`, {
+                method: 'DELETE'
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Usuário excluído com sucesso.');
+                        // Recarrega a página para refletir as alterações
+                        window.location.reload();
+                    } else {
+                        throw new Error('Erro ao excluir usuário.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao excluir usuário:', error);
+                    alert('Erro ao excluir usuário. Verifique o console para mais detalhes.');
+                });
+        }
+    }
+</script>
+
 </body>
 </html>

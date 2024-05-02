@@ -77,6 +77,47 @@
                 <h2><%= artigo.titulo %></h2>
                 <p><%= artigo.resumo %></p>
                 <p><%= artigo.link%></p>
+        <% if (user) { %>
+            <% if (user.tipo == 'Administrador' || (user.tipo == 'Autor' && user.id == artigo.id_autor)) { %>
+                <button id="deleteButton">Deletar</button>
+                <button id="editButton">Editar</button>
+            <% } %>
+            <% if (user.tipo == 'Administrador' || user.tipo == 'Avaliador') { %>
+                <form id="evaluationForm">
+                    <label for="n1">N1:</label>
+                    <input type="number" max="10" min="1" step="0.01" id="n1">
+                    <label for="n2">N2:</label>
+                    <input type="number" max="10" min="1" step="0.01" id="n2">
+                    <button type="button" id="evaluateButton">Avaliar</button>
+                    <label for="nota" id="notaLabel">Nota: </label>
+                </form>
+            <% } %>
+        <% } %>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const deleteButton = document.getElementById('deleteButton');
+                const editButton = document.getElementById('editButton');
+                const evaluationForm = document.getElementById('evaluationForm');
+                const evaluateButton = document.getElementById('evaluateButton');
+                const n1Input = document.getElementById('n1');
+                const n2Input = document.getElementById('n2');
+                const notaLabel = document.getElementById('notaLabel');
+
+                // Adicionar manipuladores de eventos para os botões
+
+                // Adicionar manipulador de evento para o botão de avaliação
+                evaluateButton.addEventListener('click', () => {
+                    const n1 = parseFloat(n1Input.value);
+                    const n2 = parseFloat(n2Input.value);
+                    const nota = (n1 * n2);
+                    notaLabel.textContent = `Nota: ${nota.toFixed(2)}`;
+                    // Implementar a lógica de enviar a avaliação para o servidor aqui
+                });
+            });
+        </script>
+
+
     </section>
 </section>
 </body>
