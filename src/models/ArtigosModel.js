@@ -1,3 +1,4 @@
+const {Sequelize} = require("sequelize");
 module.exports = (sequelize, Sequelize) => {
     const artigos = sequelize.define('Artigos', {
         id:{
@@ -29,6 +30,16 @@ module.exports = (sequelize, Sequelize) => {
         nota3: {
             type: Sequelize.FLOAT,
             alolownull: true
+        },
+        createdAt: {
+            type: Sequelize.DATE,
+            allowNull: false,
+            defaultValue: Sequelize.NOW
+        },
+        updatedAt: {
+            type: Sequelize.DATE,
+            allowNull: false,
+            defaultValue: Sequelize.NOW
         }
     });
     return artigos;

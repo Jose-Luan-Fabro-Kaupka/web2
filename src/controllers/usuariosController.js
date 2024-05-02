@@ -61,3 +61,11 @@ exports.deleteUser = async (req, res) => {
         res.status(500).json({ message: 'Erro ao excluir usuário', error: error.message });
     }
 };
+exports.renderAdminUsers = async (req, res) => {
+    try {
+        const users = await Usuario.findAll();
+        res.render('adminUsers.ejs', { users });
+    } catch (err) {
+        res.status(500).send('Erro ao buscar usuários.');
+    }
+}

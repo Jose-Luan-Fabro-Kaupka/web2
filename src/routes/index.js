@@ -2,15 +2,8 @@ const express = require('express');
 const router = express.Router();
 const artigosController = require('../controllers/ArtigosController');
 const usuariosController = require('../controllers/usuariosController');
-var ensureLogIn = require('connect-ensure-login').ensureLoggedIn;
-const passport = require("passport");
-const authController = require('../controllers/authController');
-const authService = require('../services/authService')
-const artigoService = require('../services/ArtigosService')
-const db = require('../config/db_sequelize')
 const homeController = require('../controllers/homeController')
 
-var ensureLoggedIn = ensureLogIn();
 
 //Artigos
 router.get('/artigos', (req, res) => artigosController.getArtigos(req, res));
@@ -41,6 +34,8 @@ router.get('/home', homeController.renderHome);
 router.get('/artigos/add', artigosController.renderAddArtigo)
 
 router.get('/artigos/:id', artigosController.renderArtigo)
+
+router.get('/admin/users', usuariosController.renderAdminUsers)
 
 
 
