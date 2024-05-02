@@ -16,11 +16,7 @@ exports.postArtigos = async (req, res) => {
         const dados = { titulo, resumo, link, id_autor };
         const novoArtigo = await service.artigosCriar(dados);
 
-        return res.status(201).json({
-            success: true,
-            message: 'Artigo criado com sucesso.',
-            data: novoArtigo
-        });
+        return res.redirect('/home')
     } catch (error) {
         console.error('Erro ao criar artigo:', error);
         return res.status(500).json({
@@ -141,7 +137,9 @@ exports.renderArtigo = async (req, res) => {
         }
 
         return res.render('artigo', {
-            artigo: artigo
+            artigo: artigo,
+            user: req.user
+
         });
     } catch (error) {
         console.error('Erro ao consultar artigo:', error);

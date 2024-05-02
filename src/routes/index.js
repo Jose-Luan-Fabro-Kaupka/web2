@@ -4,6 +4,21 @@ const artigosController = require('../controllers/ArtigosController');
 const usuariosController = require('../controllers/usuariosController');
 const homeController = require('../controllers/homeController')
 
+//Middlewares
+function isAuthenticatedAdmin(req, res, next) {
+    if (req.isAuthenticated() && req.user.tipo === 'Administrador') {
+        return next();
+    }
+    res.redirect('/auth/login');
+}
+function isAuthenticatedAutor(req, res, next) {
+    if (req.isAuthenticated() && (req.user.tipo === 'Administrador' || req.user.tipo ==='Autor')) {
+        return next();
+    }
+    res.redirect('/auth/login');
+}
+
+
 
 //Artigos
 router.get('/artigos', (req, res) => artigosController.getArtigos(req, res));
@@ -31,11 +46,13 @@ router.get('/', homeController.renderHome)
 router.get('/home', homeController.renderHome);
 
 
-router.get('/artigos/add', artigosController.renderAddArtigo)
+router.get('/artigos/add',isAuthenticatedAutor, artigosController.renderAddArtigo)
 
 router.get('/artigos/:id', artigosController.renderArtigo)
 
-router.get('/admin/users', usuariosController.renderAdminUsers)
+router.get('/admin/users',isAuthenticatedAdmin, usuariosController.renderAdminUsers)
+
+router.get('/admin/users/:id',isAuthenticatedAdmin, usuariosController.renderAtualizaUser)
 
 
 

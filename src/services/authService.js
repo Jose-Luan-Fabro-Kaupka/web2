@@ -8,6 +8,7 @@ exports.findByEmail = async (email) => {
 };
 
 exports.findById = async (id) => {
+    console.log(id)
     return db.usuarios.findByPk(id);
 };
 

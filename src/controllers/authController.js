@@ -2,6 +2,7 @@ const userController = require('../controllers/usuariosController')
 // controllers/authController.js
 const authService = require('../services/authService');
 
+
 exports.getLogin = (req, res) => {
     res.render('login.ejs');
 };
@@ -19,7 +20,7 @@ exports.postSignup = async (req, res) => {
     console.log(dados)
     try {
         await authService.signup(dados)
-        res.redirect('/auth/login');
+        res.redirect('/admin/users');
     } catch (error) {
         // Trate o erro adequadamente
         console.error(error);
