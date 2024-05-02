@@ -90,4 +90,4 @@ function onListening() {
 }
 
 //uncomment to create database
-//db.start()
+db.start()
